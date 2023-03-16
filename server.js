@@ -35,8 +35,7 @@ app.listen(PORT, () => {
 });
 
 db.mongoose
-  .connect(`mongodb+srv://rifkymoll:WBxQqk623q6igT@nodeexpressproject.gatposw.mongodb.net/nodejs_jwt_auth_db?retryWrites=true&w=majority
-  `)
+  .connect(process.env.MONGO_URI)
   .then(() => {
     console.log('Successfully connect to mongoDB.');
     initial();
@@ -47,7 +46,7 @@ db.mongoose
   });
 
 function initial() {
-  Role.collection.estimatedDocumentCount((err, count) => {
+  Role.estimatedDocumentCount((err, count) => {
     if (!err && count === 0) {
       new Role({
         name: 'user'
