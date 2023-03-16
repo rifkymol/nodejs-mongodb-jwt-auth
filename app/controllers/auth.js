@@ -4,7 +4,7 @@ const Role = require('../models/role');
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
 
-exports.singup = (req, res) => {
+exports.signup = (req, res) => {
   const user = new User ({
     username: req.body.username,
     email: req.body.email,

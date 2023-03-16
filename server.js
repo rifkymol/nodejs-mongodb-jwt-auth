@@ -3,7 +3,7 @@ const express = require('express');
 const cors = require('cors');
 const dbConfig = require('./app/config/db');
 const db = require('./app/models');
-const Role = db.role;
+const Role = require('./app/models/role');
 
 const app = express();
 
@@ -24,6 +24,10 @@ app.get('/', (req, res) => {
   res.json({ message: 'Hallo' });
 });
 
+// routes
+require('./app/routes/auth')(app);
+require('./app/routes/user')(app);
+
 // set port, listen for requests
 const PORT = process.env.PORT || 8080;
 app.listen(PORT, () => {
@@ -31,21 +35,19 @@ app.listen(PORT, () => {
 });
 
 db.mongoose
-  .connect(`mongodb://${dbConfig.HOST}:${dbConfig.PORT}/${dbConfig.DB}`, {
-    // userNewUrlParser: true,
-    useUnifiedTopology: true
-  })
+  .connect(`mongodb+srv://rifkymoll:WBxQqk623q6igT@nodeexpressproject.gatposw.mongodb.net/nodejs_jwt_auth_db?retryWrites=true&w=majority
+  `)
   .then(() => {
     console.log('Successfully connect to mongoDB.');
-    intiail();
+    initial();
   })
   .catch(err => {
     console.error('Connection error', err);
     process.exit();
   });
 
-function intiail() {
-  Role.estimatedDocumentCount((err, count) => {
+function initial() {
+  Role.collection.estimatedDocumentCount((err, count) => {
     if (!err && count === 0) {
       new Role({
         name: 'user'
