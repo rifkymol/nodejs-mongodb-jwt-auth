@@ -1,5 +1,7 @@
+require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
+const dbConfig = require('./app/config/db');
 const db = require('./app/models');
 const Role = db.role;
 
@@ -30,7 +32,7 @@ app.listen(PORT, () => {
 
 db.mongoose
   .connect(`mongodb://${dbConfig.HOST}:${dbConfig.PORT}/${dbConfig.DB}`, {
-    userNewUrlParser: true,
+    // userNewUrlParser: true,
     useUnifiedTopology: true
   })
   .then(() => {
